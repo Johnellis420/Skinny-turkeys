@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="75%">
+      <stop offset="0" stop-color="#a3234a"/>
+      <stop offset="1" stop-color="#5a0d24"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b7713f"/>
+      <stop offset="1" stop-color="#7a3f1f"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <!-- tail fan: few, long, scrawny feathers -->
+  <g transform="translate(256 318)">
+    <g id="f">
+      <ellipse cx="0" cy="-118" rx="17" ry="112" fill="#f28c28"/>
+      <ellipse cx="0" cy="-150" rx="7" ry="60" fill="#ffc94a" opacity=".9"/>
+    </g>
+    <use href="#f" transform="rotate(-62)"/>
+    <use href="#f" transform="rotate(-31)"/>
+    <use href="#f" transform="rotate(31)"/>
+    <use href="#f" transform="rotate(62)"/>
+    <ellipse cx="0" cy="-118" rx="17" ry="112" fill="#e8662a"/>
+  </g>
+  <!-- stick legs -->
+  <g stroke="#ffc94a" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M240 392 L230 452 M230 452 l-22 6 M230 452 l-6 18 M230 452 l12 12"/>
+    <path d="M272 392 L282 452 M282 452 l22 6 M282 452 l6 18 M282 452 l-12 12"/>
+  </g>
+  <!-- very skinny body -->
+  <ellipse cx="256" cy="322" rx="40" ry="80" fill="url(#body)"/>
+  <path d="M232 300 q24 30 48 0" stroke="#5e2c12" stroke-width="6" fill="none" stroke-linecap="round" opacity=".55"/>
+  <path d="M234 334 q22 26 44 0" stroke="#5e2c12" stroke-width="6" fill="none" stroke-linecap="round" opacity=".55"/>
+  <!-- long scrawny neck -->
+  <path d="M256 250 C252 214 248 196 252 168" stroke="#9a5a33" stroke-width="22" fill="none" stroke-linecap="round"/>
+  <!-- head -->
+  <circle cx="254" cy="146" r="36" fill="#b7713f"/>
+  <!-- tired eye -->
+  <circle cx="264" cy="138" r="12" fill="#fff"/>
+  <circle cx="267" cy="141" r="6" fill="#2a0f18"/>
+  <path d="M250 128 h28" stroke="#7a3f1f" stroke-width="7" stroke-linecap="round"/>
+  <!-- beak -->
+  <path d="M286 146 L318 156 L286 166 Z" fill="#ffc94a"/>
+  <!-- wattle -->
+  <path d="M290 164 C302 176 300 204 288 210 C278 204 280 182 290 164 Z" fill="#e0115f"/>
+</svg>
