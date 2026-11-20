@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skinny Turkeys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: playful, a little roasty, warm like a holiday table
+   IDEA: an empty dinner plate that slowly fills toward Thanksgiving dinner
+   PICTURE: big plate-ring timer with checkpoint pips around the rim
+   COLOUR and TYPE: cranberry field, pumpkin accent, gold highlight; Lilita One + Nunito
+   LAYOUT: cranberry hero with plate + stats, then phase, roasts, body timeline, setup, share */
+:root{color-scheme:light dark;
+  --bg:light-dark(#f7eef1,#14070d);--ink:light-dark(#2a0f18,#fbe9ee);--mute:light-dark(#7a5a65,#c5a2ae);
+  --card:light-dark(#ffffff,#24101a);--line:light-dark(#ead8de,#3a1c29);
+  --cran:#7c1534;--cran2:#5a0d24;--pump:#f28c28;--gold:#ffc94a;--cream:#fff4e6}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Nunito,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Lilita One",Nunito,sans-serif;font-weight:400;line-height:1.05;text-wrap:balance;margin:0}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.wrap{max-width:1100px;margin:0 auto}
+.hero{background:radial-gradient(120% 90% at 70% 10%,#9a1f43 0%,var(--cran) 45%,var(--cran2) 100%);color:#fff}
+.hero h1{font-size:clamp(34px,6vw,52px)}
+.hero .sub{color:#ffd9e2;margin:6px 0 0;font-weight:600}
+.sample{display:inline-block;margin-top:10px;font-size:13px;background:#ffffff22;padding:3px 10px;border-radius:99px}
+.heroGrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center;margin-top:24px}
+.plate{position:relative;aspect-ratio:1;max-width:420px;width:100%;margin:0 auto}
+.plate svg{width:100%;height:100%;display:block;overflow:visible}
+.plateTxt{position:absolute;inset:0;display:grid;place-content:center;text-align:center;pointer-events:none}
+.plateTxt .big{font-family:"Lilita One";font-size:clamp(40px,9vw,64px);line-height:1;color:var(--cran2)}
+.plateTxt .lbl{color:#8a5a68;font-weight:800;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{background:#ffffff14;border:1px solid #ffffff26;border-radius:16px;padding:14px 16px}
+.stat b{display:block;font-family:"Lilita One";font-weight:400;font-size:clamp(22px,4vw,30px);white-space:nowrap}
+.stat span{font-size:13px;color:#ffd9e2;font-weight:600}
+.stat.wide{grid-column:1/-1}
+.next{background:var(--gold);color:#3a1a00;border:0}
+.next span{color:#6b3d00}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+button{font:inherit;font-weight:800;min-height:44px;padding:0 18px;border-radius:12px;border:0;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.bPump{background:var(--pump);color:#2a0f00}
+.bGhost{background:transparent;color:inherit;border:2px solid currentColor}
+.bSoft{background:var(--line);color:var(--ink)}
+main .band{padding-top:clamp(24px,3vw,40px);padding-bottom:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,3vw,28px)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+h2{font-size:clamp(26px,4vw,34px);margin-bottom:6px}
+.kicker{color:var(--pump);font-weight:800;font-size:14px}
+.phaseName{font-size:28px;margin:4px 0 8px}
+.muted{color:var(--mute)}
+.small{font-size:13px}
+ol.cps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.cp{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:start;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card)}
+.cp .t{font-family:"Lilita One";font-size:20px;color:var(--mute);white-space:nowrap}
+.cp h3{font-size:19px}
+.cp p{margin:2px 0 0}
+.cp.lock{opacity:.55}
+.cp.lock p{filter:blur(4px);user-select:none}
+.cp.done{border-color:var(--pump);box-shadow:inset 4px 0 0 var(--pump)}
+.cp.done .t{color:var(--pump)}
+.cp.now{border-color:var(--gold);box-shadow:0 0 0 3px #ffc94a55}
+.tl{display:grid;gap:8px;margin-top:14px}
+.tlRow{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.tlRow .h{font-weight:800;color:var(--mute);white-space:nowrap}
+.tlRow.on .h{color:var(--pump)}
+.tlRow.on b{color:var(--pump)}
+.tlRow.past{opacity:.6}
+form{display:grid;gap:14px;margin-top:12px}
+label{font-weight:800;font-size:14px;display:grid;gap:6px}
+input{font:inherit;font-size:16px;min-height:44px;padding:8px 12px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+.seg{display:flex;background:var(--line);border-radius:12px;padding:4px;gap:4px}
+.seg button{flex:1;background:transparent;color:var(--ink);min-height:40px}
+.seg button[aria-pressed=true]{background:var(--card);box-shadow:0 1px 3px #0003}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{min-height:40px;padding:0 14px;background:var(--line);color:var(--ink);border-radius:99px}
+.code{font-family:ui-monospace,Menlo,monospace;font-size:13px;overflow-wrap:anywhere;background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:10px 12px}
+.note{font-size:14px;border-left:4px solid var(--gold);padding:8px 12px;background:light-dark(#fff8e6,#2a1f0a);border-radius:0 12px 12px 0}
+footer{padding:32px max(5vw,16px) 48px;text-align:center}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,140%);width:min(92vw,420px);background:var(--gold);color:#2a1400;border-radius:18px;padding:14px 18px;box-shadow:0 10px 30px #0005;transition:transform .45s cubic-bezier(.2,1.4,.4,1);z-index:9}
+.toast.show{transform:translate(-50%,0)}
+.toast b{font-family:"Lilita One";font-weight:400;font-size:20px;display:block}
+#arc{transition:stroke-dashoffset 1s linear}
+@media(prefers-reduced-motion:reduce){.toast,#arc{transition:none}}
+@media(max-width:760px){.heroGrid,.two{grid-template-columns:minmax(0,1fr)}.plate{max-width:320px}}
+</style>
+</head>
+<body>
+<header class="hero band">
+  <div class="wrap">
+    <h1 id="title">Skinny Turkeys</h1>
+    <p class="sub" id="subtitle">A fasting tracker for people who will absolutely talk about it at dinner.</p>
+    <span class="sample" id="sampleTag" hidden>Sample fast shown. Set up your own below.</span>
+    <div class="heroGrid">
+      <div class="plate">
+        <svg viewBox="0 0 240 240" aria-hidden="true">
+          <defs>
+            <radialGradient id="pl" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f1dfd8"/></radialGradient>
+            <radialGradient id="rim" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#fffaf5"/><stop offset="1" stop-color="#e3c9c0"/></radialGradient>
+          </defs>
+          <ellipse cx="124" cy="132" rx="112" ry="108" fill="#2a0610" opacity=".35"/>
+          <circle cx="120" cy="120" r="112" fill="url(#rim)"/>
+          <circle cx="120" cy="120" r="100" fill="none" stroke="#ead3cb" stroke-width="18"/>
+          <circle id="arc" cx="120" cy="120" r="100" fill="none" stroke="#f28c28" stroke-width="18" stroke-linecap="round" transform="rotate(-90 120 120)" stroke-dasharray="628.32" stroke-dashoffset="628.32"/>
+          <g id="pips"></g>
+          <circle cx="120" cy="120" r="82" fill="url(#pl)"/>
+          <circle cx="120" cy="120" r="70" fill="none" stroke="#ecd9d2" stroke-width="1.5"/>
+          <path d="M60 64 a82 82 0 0 1 60 -26" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+        </svg>
+        <div class="plateTxt"><span class="big" id="pct">0%</span><span class="lbl" id="plateLbl">of the way to food</span></div>
+      </div>
+      <div>
+        <div class="stats">
+          <div class="stat"><b id="elapsed">0h 00m</b><span>Fasted so far</span></div>
+          <div class="stat"><b id="remain">0h 00m</b><span>Until you eat</span></div>
+          <div class="stat wide next"><b id="nextName">Next roast</b><span id="nextIn">Unlocks in…</span></div>
+          <div class="stat wide"><b id="endsAt" style="font-size:20px">Ends</b><span id="startsAt">Started</span></div>
+        </div>
+        <div class="btns">
+          <button class="bPump" id="editBtn" type="button">Set up a fast</button>
+          <button class="bGhost" id="caveBtn" type="button">I caved</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="band"><div class="wrap two">
+    <div class="card">
+      <span class="kicker">What your body is likely doing now</span>
+      <h3 class="phaseName" id="phaseName">Fed state</h3>
+      <p id="phaseText"></p>
+      <p class="small muted" id="phaseNext"></p>
+    </div>
+    <div class="card">
+      <span class="kicker">Latest roast</span>
+      <h3 class="phaseName" id="lastName">Nothing yet</h3>
+      <p id="lastText">Give it an hour. Your first achievement is literally doing nothing.</p>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <h2>Checkpoints</h2>
+    <p class="muted">Unlock each one by not eating. The bar is low. Somehow it's also high.</p>
+    <ol class="cps" id="cps"></ol>
+  </div></section>
+
+  <section class="band"><div class="wrap two">
+    <div class="card">
+      <h2>Body timeline</h2>
+      <p class="muted small">Rough averages. Timing varies a lot with your last meal, activity and metabolism.</p>
+      <div class="tl" id="tl"></div>
+    </div>
+    <div class="card" id="setup">
+      <h2>Set up your fast</h2>
+      <form id="form">
+        <label>Your name<input id="fName" maxlength="30" placeholder="e.g. John Boy" autocomplete="off"></label>
+        <label>Start<input id="fStart" type="datetime-local" required></label>
+        <div class="chips"><button type="button" id="nowBtn">Start now</button></div>
+        <div class="seg" role="group" aria-label="Set end by">
+          <button type="button" id="mEnd" aria-pressed="true">End time</button>
+          <button type="button" id="mDur" aria-pressed="false">Duration</button>
+        </div>
+        <label id="endWrap">End<input id="fEnd" type="datetime-local"></label>
+        <label id="durWrap" hidden>Duration (hours)<input id="fDur" type="number" min="1" max="240" step="0.5" value="72" inputmode="decimal"></label>
+        <div class="chips" id="presets">
+          <button type="button" data-h="24">24h</button><button type="button" data-h="36">36h</button>
+          <button type="button" data-h="48">48h</button><button type="button" data-h="72">72h</button>
+          <button type="button" id="tgBtn">Until Thanksgiving dinner</button>
+        </div>
+        <p class="small muted" id="formMsg"></p>
+        <button class="bPump" type="submit">Save fast</button>
+      </form>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap two">
+    <div class="card">
+      <h2>Fast with friends</h2>
+      <p class="muted">Copy your fast and send it to the group. Friends open the link (or paste the code below) to run the exact same start and end time.</p>
+      <div class="code" id="code">No fast yet</div>
+      <div class="btns"><button class="bPump" id="copyBtn" type="button">Copy fast link</button></div>
+      <p class="small muted" id="copyMsg"></p>
+    </div>
+    <div class="card">
+      <h2>Join a fast</h2>
+      <form id="joinForm">
+        <label>Paste a fast code<input id="joinCode" autocomplete="off" placeholder="TURKEY-…"></label>
+        <label>Your name<input id="joinName" maxlength="30" autocomplete="off"></label>
+        <p class="small muted" id="joinMsg"></p>
+        <button class="bPump" type="submit">Join</button>
+      </form>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <p class="note">Not medical advice. Drink water, keep electrolytes up, and stop if you feel faint, confused or your heart races. Extended fasts aren't a good idea if you're diabetic, on medication, pregnant, or have a history of eating issues. When you break a long fast, start small.</p>
+  </div></section>
+</main>
+<footer class="muted small">Skinny Turkeys. Built for one hungry friend group.</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"><b id="toastT"></b><span id="toastP"></span></div>
+
+<script>
+{
+const H=3600e3, $=id=>document.getElementById(id);
+const TG=new Date(2026,10,26,16,0).getTime();
+const PHASES=[
+ {h:0,n:"Fed state",t:"Still digesting your last meal. Blood sugar and insulin are up and your body is storing energy."},
+ {h:4,n:"Early fasting",t:"Insulin is falling. Your liver releases stored glycogen to keep blood sugar steady."},
+ {h:12,n:"Fuel switch",t:"Glycogen is running low, so your body leans harder on fat. Ketone production starts for many people."},
+ {h:18,n:"Ketosis ramping",t:"Ketones climb and your brain starts using them as fuel. Plenty of people notice hunger easing off around here."},
+ {h:24,n:"Deep fast",t:"Glycogen is mostly spent. Growth hormone rises, which helps protect muscle. Autophagy (cellular clean-up) likely increases, though most of that evidence comes from animal studies."},
+ {h:48,n:"Hormone peak",t:"Insulin is near its low point. Studies have measured growth hormone several times above baseline by day two. Ketones are now a major fuel."},
+ {h:72,n:"Long haul",t:"Deep ketosis. Some research suggests immune-cell turnover kicks in, mainly from mouse studies. Electrolytes matter a lot now."}
+];
+const ROASTS=[
+ [1,"Warm-up lap","One hour. You do this every night while unconscious. Settle down."],
+ [3,"Snack reflex","Your hand drifted toward the pantry on autopilot. Nice save, champ."],
+ [6,"Fridge inspector","Opened the fridge just to look. Twice. Nobody saw. (Everybody saw.)"],
+ [10,"Hangry intern","Snapped at someone over nothing. Apology pending."],
+ [12,"Half-day hero","Twelve hours. Your stomach has filed a formal complaint with HR."],
+ [16,"Influencer tier","16:8 people would be so proud. Everyone else is unimpressed."],
+ [20,"Smell detective","You can now smell a cheeseburger from three blocks away."],
+ [24,"Full day","24 hours. You're now legally required to mention it in every conversation."],
+ [30,"Recipe doomscroller","Watched four cooking videos 'for fun'. This is not helping and you know it."],
+ [36,"Sommelier of air","Describing smells in tasting notes. Hints of garlic bread, a whisper of regret."],
+ [48,"Personality: fasting","Two days. Fasting is now your entire personality. Friends are concerned for new reasons."],
+ [60,"Monk mode","You've found inner peace or low blood sugar. Hard to tell."],
+ [72,"Legend (insufferable)","Three days. Please stop telling the barista."],
+ [96,"Basically a houseplant","Four days. Water, sunlight, mild smugness. Call your mom."]
+];
+const PCTS=[[.25,"Quarter-way","25% done. The remaining 75% is basically nothing. (It is not nothing.)"],
+ [.5,"Halfway","Halfway. The pie can sense you coming."],
+ [.75,"Home stretch","75%. You've started planning your first bite like a heist."],
+ [1,"Turkey earned","You did it. Break it gently: small plate first, then the pie."]];
+
+let S=null, sample=false, firstTick=true, mode="end";
+const load=()=>{try{return JSON.parse(localStorage.getItem("gobble")||"null")}catch(e){return null}};
+const save=()=>{if(sample)return;try{localStorage.setItem("gobble",JSON.stringify(S))}catch(e){}};
+const toLocal=ms=>{const d=new Date(ms);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)};
+const fromLocal=v=>v?new Date(v).getTime():NaN;
+const fmt=ms=>{ms=Math.max(0,ms);const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/H),m=Math.floor(ms%H/6e4),s=Math.floor(ms%6e4/1e3);
+  const p=n=>String(n).padStart(2,"0");return d?`${d}d ${h}h ${p(m)}m`:h?`${h}h ${p(m)}m`:`${m}m ${p(s)}s`};
+const when=ms=>new Date(ms).toLocaleString([], {weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const encode=()=>"TURKEY-"+btoa(JSON.stringify({s:S.start,e:S.end})).replace(/=+$/,"");
+const decode=c=>{try{const o=JSON.parse(atob(c.trim().replace(/^(GOBBLE|TURKEY)-/i,"")));if(o.s&&o.e&&o.e>o.s)return o}catch(e){}return null};
+
+function checkpoints(){
+  const tot=(S.end-S.start)/H;
+  const list=ROASTS.filter(r=>r[0]<tot).map(r=>({id:"h"+r[0],t:r[0]*H,n:r[1],p:r[2]}));
+  PCTS.forEach(p=>list.push({id:"p"+p[0],t:p[0]*tot*H,n:p[1],p:p[2],pct:true}));
+  return list.sort((a,b)=>a.t-b.t);
+}
+function toast(cp){$("toastT").textContent=cp.n;$("toastP").textContent=cp.p;const t=$("toast");t.classList.add("show");clearTimeout(toast.k);toast.k=setTimeout(()=>t.classList.remove("show"),6000)}
+
+function renderStatic(){
+  const tot=S.end-S.start, cps=checkpoints();
+  $("pips").innerHTML=cps.filter(c=>c.t<tot).map(c=>{const a=(c.t/tot)*2*Math.PI-Math.PI/2;
+    return `<circle data-id="${c.id}" cx="${(120+100*Math.cos(a)).toFixed(1)}" cy="${(120+100*Math.sin(a)).toFixed(1)}" r="${c.pct?5:3.5}" fill="#fff" stroke="#7c1534" stroke-width="2"/>`}).join("");
+  $("startsAt").textContent="Started "+when(S.start);
+  $("endsAt").textContent="Food at "+when(S.end);
+  $("title").textContent=S.name?`${S.name}'s fast`:"Skinny Turkeys";
+  $("sampleTag").hidden=!sample;
+  $("code").textContent=sample?"Set up your own fast to get a code":encode();
+}
+
+function tick(){
+  if(!S)return;
+  const now=S.caved||Date.now(), tot=S.end-S.start, el=Math.min(Math.max(now-S.start,0),tot), f=tot?el/tot:0;
+  const notStarted=Date.now()<S.start, done=!S.caved&&Date.now()>=S.end;
+  $("arc").style.strokeDashoffset=(628.32*(1-f)).toFixed(2);
+  $("pct").textContent=Math.floor(f*100)+"%";
+  $("plateLbl").textContent=S.caved?"then the pie won":notStarted?"starts soon":done?"plate's ready":"of the way to food";
+  $("elapsed").textContent=fmt(el);
+  $("remain").textContent=S.caved?"Caved":notStarted?"Starts in "+fmt(S.start-Date.now()):done?"Eat!":fmt(S.end-now);
+  $("caveBtn").hidden=!!S.caved||done||notStarted;
+  const hrs=el/H, ph=[...PHASES].reverse().find(p=>hrs>=p.h), nx=PHASES.find(p=>p.h>hrs);
+  $("phaseName").textContent=ph.n; $("phaseText").textContent=ph.t;
+  $("phaseNext").textContent=S.caved?"Fast ended early. No judgment. Some judgment.":nx&&nx.h*H<tot?`Next up: ${nx.n} in ${fmt(nx.h*H-el)}.`:"";
+  const cps=checkpoints(); let last=null, next=null;
+  if(!S.seen)S.seen=[];
+  $("cps").innerHTML=cps.map(c=>{const ok=el>=c.t; if(ok)last=c; else if(!next)next=c;
+    if(ok&&!S.seen.includes(c.id)){S.seen.push(c.id);save();if(!firstTick&&!sample)toast(c)}
+    return `<li class="cp ${ok?"done":"lock"} ${(!ok&&next===c)?"now":""}"><span class="t">${c.pct?Math.round(c.t/tot*100)+"%":c.t/H+"h"}</span><div><h3>${esc(c.n)}</h3><p>${ok?esc(c.p):"Locked. Keep not eating."}</p></div></li>`}).join("");
+  document.querySelectorAll("#pips circle").forEach(p=>{const c=cps.find(x=>x.id===p.dataset.id);p.setAttribute("fill",c&&el>=c.t?"#ffc94a":"#fff")});
+  if(last){$("lastName").textContent=last.n;$("lastText").textContent=last.p}
+  else{$("lastName").textContent="Nothing yet";$("lastText").textContent="Give it an hour. Your first achievement is literally doing nothing."}
+  $("nextName").textContent=S.caved?"Roasts paused":next?next.n:"All roasts unlocked";
+  $("nextIn").textContent=S.caved?"You and the pie had a moment":next?"Unlocks in "+fmt(next.t-el):"Go eat something nice";
+  $("tl").innerHTML=PHASES.filter(p=>p.h*H<tot).map(p=>`<div class="tlRow ${p===ph?"on":hrs>p.h?"past":""}"><span class="h">${p.h}h+</span><div><b>${p.n}</b><div class="small muted">${p.t}</div></div></div>`).join("");
+  firstTick=false;
+}
+
+function setMode(m){mode=m;$("mEnd").setAttribute("aria-pressed",m==="end");$("mDur").setAttribute("aria-pressed",m==="dur");$("endWrap").hidden=m!=="end";$("durWrap").hidden=m!=="dur"}
+function fillForm(){
+  if(!S||sample){$("fStart").value=toLocal(Date.now());$("fEnd").value=toLocal(TG);$("fDur").value=72;return}
+  $("fName").value=S.name||"";$("fStart").value=toLocal(S.start);$("fEnd").value=toLocal(S.end);$("fDur").value=+((S.end-S.start)/H).toFixed(1);
+}
+function setFast(o){S={name:o.name||"",start:o.start,end:o.end,caved:null,seen:[],updated:Date.now()};sample=false;firstTick=true;save();renderStatic();tick();fillForm();scrollTo({top:0,behavior:"smooth"})}
+
+$("mEnd").onclick=()=>setMode("end");$("mDur").onclick=()=>setMode("dur");
+$("nowBtn").onclick=()=>{$("fStart").value=toLocal(Date.now())};
+$("presets").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.id==="tgBtn"){setMode("end");$("fEnd").value=toLocal(TG)}else{setMode("dur");$("fDur").value=b.dataset.h}});
+$("form").addEventListener("submit",e=>{e.preventDefault();
+  const st=fromLocal($("fStart").value), en=mode==="end"?fromLocal($("fEnd").value):st+parseFloat($("fDur").value)*H;
+  if(!(st>0)||!(en>st)){$("formMsg").textContent="End needs to be after the start. Time travel fasting is not supported yet.";return}
+  if(en-st>240*H){$("formMsg").textContent="That's over 10 days. Let's keep this a party, not a hunger strike.";return}
+  $("formMsg").textContent="";setFast({name:$("fName").value.trim(),start:st,end:en});
+});
+$("editBtn").onclick=()=>{$("setup").scrollIntoView({behavior:"smooth"});setTimeout(()=>$("fName").focus(),400)};
+const caveMsg=$("caveBtn");
+caveMsg.onclick=()=>{if(caveMsg.dataset.arm!=="1"){caveMsg.dataset.arm="1";caveMsg.textContent="Really? Tap again";setTimeout(()=>{caveMsg.dataset.arm="";caveMsg.textContent="I caved"},4000);return}
+  S.caved=Date.now();S.updated=Date.now();save();caveMsg.dataset.arm="";caveMsg.textContent="I caved";tick()};
+$("copyBtn").onclick=async()=>{if(sample){$("copyMsg").textContent="Save your own fast first.";return}
+  const link=/^https?:$/.test(location.protocol)&&!/claude\.ai|claudeusercontent/.test(location.hostname)?location.origin+location.pathname+"?f="+encode():encode();
+  try{await navigator.clipboard.writeText(link);$("copyMsg").textContent="Copied. Drop it in the group chat."}
+  catch(e){$("copyMsg").textContent="Couldn't copy automatically. Press and hold the code above to copy it."}};
+$("joinForm").addEventListener("submit",e=>{e.preventDefault();const o=decode($("joinCode").value);
+  if(!o){$("joinMsg").textContent="That code doesn't look right. Ask your friend to copy it again.";return}
+  $("joinMsg").textContent="";setFast({name:$("joinName").value.trim(),start:o.s,end:o.e})});
+
+const qp=new URLSearchParams(location.search).get("f"), shared=qp&&decode(qp);
+S=load();
+if(shared&&(!S||S.start!==shared.s||S.end!==shared.e)){S={name:"",start:shared.s,end:shared.e,caved:null,seen:[]};save()}
+if(!S){sample=true;const n=Date.now();S={name:"",start:n-19.4*H,end:n-19.4*H+72*H,caved:null,seen:[]}}
+fillForm();renderStatic();tick();setInterval(tick,1000);
+}
+</script>
+</body>
+</html>
