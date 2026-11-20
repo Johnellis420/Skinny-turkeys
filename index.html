@@ -18,6 +18,8 @@
   --cran:#7c1534;--cran2:#5a0d24;--pump:#f28c28;--gold:#ffc94a;--cream:#fff4e6}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+p:empty{display:none}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Nunito,system-ui,sans-serif;overflow-x:clip}
 h1,h2,h3{font-family:"Lilita One",Nunito,sans-serif;font-weight:400;line-height:1.05;text-wrap:balance;margin:0}
 .band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
@@ -30,11 +32,11 @@ h1,h2,h3{font-family:"Lilita One",Nunito,sans-serif;font-weight:400;line-height:
 .plate{position:relative;aspect-ratio:1;max-width:420px;width:100%;margin:0 auto}
 .plate svg{width:100%;height:100%;display:block;overflow:visible}
 .plateTxt{position:absolute;inset:0;display:grid;place-content:center;text-align:center;pointer-events:none}
-.plateTxt .big{font-family:"Lilita One";font-size:clamp(40px,9vw,64px);line-height:1;color:var(--cran2)}
+.plateTxt .big{font-family:"Lilita One",Nunito,sans-serif;font-size:clamp(40px,9vw,64px);line-height:1;color:var(--cran2)}
 .plateTxt .lbl{color:#8a5a68;font-weight:800;font-size:14px}
 .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .stat{background:#ffffff14;border:1px solid #ffffff26;border-radius:16px;padding:14px 16px}
-.stat b{display:block;font-family:"Lilita One";font-weight:400;font-size:clamp(22px,4vw,30px);white-space:nowrap}
+.stat b{display:block;font-family:"Lilita One",Nunito,sans-serif;font-weight:400;font-size:clamp(22px,4vw,30px);white-space:nowrap}
 .stat span{font-size:13px;color:#ffd9e2;font-weight:600}
 .stat.wide{grid-column:1/-1}
 .next{background:var(--gold);color:#3a1a00;border:0}
@@ -54,8 +56,8 @@ h2{font-size:clamp(26px,4vw,34px);margin-bottom:6px}
 .muted{color:var(--mute)}
 .small{font-size:13px}
 ol.cps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
-.cp{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:start;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card)}
-.cp .t{font-family:"Lilita One";font-size:20px;color:var(--mute);white-space:nowrap}
+.cp{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;align-items:start;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card)}
+.cp .t{font-family:"Lilita One",Nunito,sans-serif;font-size:20px;color:var(--mute);white-space:nowrap}
 .cp h3{font-size:19px}
 .cp p{margin:2px 0 0}
 .cp.lock{opacity:.55}
@@ -64,7 +66,7 @@ ol.cps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
 .cp.done .t{color:var(--pump)}
 .cp.now{border-color:var(--gold);box-shadow:0 0 0 3px #ffc94a55}
 .tl{display:grid;gap:8px;margin-top:14px}
-.tlRow{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.tlRow{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--line)}
 .tlRow .h{font-weight:800;color:var(--mute);white-space:nowrap}
 .tlRow.on .h{color:var(--pump)}
 .tlRow.on b{color:var(--pump)}
@@ -81,8 +83,8 @@ input{font:inherit;font-size:16px;min-height:44px;padding:8px 12px;border-radius
 .note{font-size:14px;border-left:4px solid var(--gold);padding:8px 12px;background:light-dark(#fff8e6,#2a1f0a);border-radius:0 12px 12px 0}
 footer{padding:32px max(5vw,16px) 48px;text-align:center}
 .toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,140%);width:min(92vw,420px);background:var(--gold);color:#2a1400;border-radius:18px;padding:14px 18px;box-shadow:0 10px 30px #0005;transition:transform .45s cubic-bezier(.2,1.4,.4,1);z-index:9}
-.toast.show{transform:translate(-50%,0)}
-.toast b{font-family:"Lilita One";font-weight:400;font-size:20px;display:block}
+.toast{visibility:hidden}.toast.show{transform:translate(-50%,0);visibility:visible}
+.toast b{font-family:"Lilita One",Nunito,sans-serif;font-weight:400;font-size:20px;display:block}
 #arc{transition:stroke-dashoffset 1s linear}
 @media(prefers-reduced-motion:reduce){.toast,#arc{transition:none}}
 @media(max-width:760px){.heroGrid,.two{grid-template-columns:minmax(0,1fr)}.plate{max-width:320px}}
@@ -158,7 +160,7 @@ footer{padding:32px max(5vw,16px) 48px;text-align:center}
     <div class="card" id="setup">
       <h2>Set up your fast</h2>
       <form id="form">
-        <label>Your name<input id="fName" maxlength="30" placeholder="e.g. John Boy" autocomplete="off"></label>
+        <label>Your name<input id="fName" maxlength="30" autocomplete="off"></label>
         <label>Start<input id="fStart" type="datetime-local" required></label>
         <div class="chips"><button type="button" id="nowBtn">Start now</button></div>
         <div class="seg" role="group" aria-label="Set end by">
